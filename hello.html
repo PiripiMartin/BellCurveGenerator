@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+  <title>CodePen - Bell Curve Creator</title>
+  
+  
+  
+  
+<style>
+main{
+  font-family: roboto;
+  width:auto;
+  background-color: white;
+  text-align: center;
+  background:#e1e2de;
+  margin:2em;
+  border-radius: 3%;
+  padding: 2em;
+}
+h1{
+  font-size:3.5em;
+}
+label{
+}
+h1{ 
+  color: black;
+  margin-bottom: 2.5em;
+}
+#grade{
+  width: 3em;
+  margin-bottom: 2em;
+}
+#button{
+  width: auto;
+  height: auto;
+}
+#studentgrades{
+  width: auto;
+  margin-top: -1em;
+  height:8em;
+  margin-bottom: 2em;
+}
+#generate{
+  margin-top: 4em;
+  height: 3em;
+  border-style:solid;
+  color:black;
+  text-decoration: none;
+  background: white;
+  padding: 0.5em;
+  font-style: solid;
+}
+#graph{
+  display: grid;
+  grid-template-columns:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+  grid-template-rows:  1fr 1fr 1fr 1fr 1fr;
+  min-height: 30em;
+  width: 75%;
+  visibility: hidden;
+}
+
+#center{
+display: flex;
+justify-content: center;
+align-content: center;
+margin: 3em 0em 0em 0em;
+}
+#f{
+  background: #FF0000;
+}#e{
+  background: #FF3300;
+}#eq{
+  background: #ff6600;
+}#d{
+  background: #ff9900;
+}#dq{
+  background: #FFCC00;
+}#c{
+  background: #FFFF00;
+}#cq{
+  background: #ccff00;
+}#b{
+  background: #99ff00;
+}#bq{
+  background: #66ff00;
+}#a{
+  background: #33ff00;
+}#aq{
+  background: #00FF00;
+}
+
+#label{
+  display: grid;
+  grid-template-columns:  1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  min-height:3em;
+  width: 90%;
+  text-align: left;
+  visibility: hidden;
+}
+.labelinput{
+  width: 3em;
+  height: 1em;
+  
+}
+.letterbox{
+  padding:1em;
+  font-size: 1.5em;
+  
+}
+#description{
+  text-align:left; 
+  width: 11em;
+  border-style: solid;
+  text-align: center;
+  font-size: 1em;
+  margin-left: 14em;
+}
+#reset{
+  margin-top: 4em;
+  height: 3em;
+  border-style:solid;
+  color:black;
+  text-decoration: none;
+  background: white;
+  padding: 0.5em;
+  font-style: solid;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  </div><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+
+
+
+<main id = "main">
+  
+
+<h1> Bell Curve Generator </h1>
+
+  
+ <div>
+<label for = "grade"> Enter grade here:</label>
+<input id = "grade" min = "0" max = "100"type = "number" placeholder = "">% <button type = "submit" id = "button" onclick = "update();">Next</button>
+</div>
+  
+  <div id = "description">Enter your students percentage grades and click generate. We'll do the math, and create a percentage-boundry based letter grade bell curve.  </div>
+  
+    <div style = "margin-top: -10em;">
+      <p> Student Grades:</p><textarea id = "studentgrades"type = "text" readonly></textarea>   
+    </div>
+
+
+
+  <a id = "generate" onclick = "generator();" href='#d'><b>GENERATE</b></a>
+  
+  <div id = "center">
+  <div id = "graph">
+    
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="letterbox" id = "c">C</div>
+    <div class="letterbox" id = "cq">C+</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="letterbox" id = "dq">D+</div>
+    <div class = "blank" id = "c"></div>
+    <div class = "blank"id = "cq"></div>
+    <div class="letterbox" id = "b">B</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="letterbox" id = "d">D</div>
+    <div class = "blank" id = "dq"></div>
+    <div class = "blank" id = "c"></div>
+    <div class = "blank" id = "cq"></div>
+    <div class = "blank" id = "b"></div>
+    <div class="letterbox" id = "bq">B+</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="letterbox" id = "e">E</div>
+    <div class = "blank" id = "d"></div>
+    <div class = "blank" id = "dq"></div>
+    <div class = "blank" id = "c"></div>
+    <div class = "blank" id = "cq"></div>
+    <div class = "blank" id = "b"></div>
+    <div class = "blank" id = "bq"></div>
+    <div class="letterbox" id = "a">A</div>
+    <div></div>
+    <div class="letterbox" id = "f">F</div>
+    <div class = "blank" id = "e"></div>
+    <div class = "blank" id = "d"></div>
+    <div class = "blank" id = "dq"></div>
+    <div class = "blank" id = "c"></div>
+    <div class = "blank" id = "cq"></div>
+    <div class = "blank" id = "b"></div>
+    <div class = "blank" id = "bq"></div>
+    <div class = "blank" id = "a"></div>
+    <div class="letterbox" id = "aq">A+</div>
+
+  </div>
+    
+    
+    
+    
+    
+    
+  </div>
+  
+  
+  <div style = "display:flex; justify-content:center;">
+    
+  <div id = "label">
+ <div></div>
+ <input class = "labelinput"type = "number" id = "flabel" readonly></input>
+ <input class = "labelinput"type = "number" id = "elabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "dlabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "dqlabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "clabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "cqlabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "blabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "bqlabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "alabel"readonly></input>
+ <input class = "labelinput"type = "number" id = "aqlabel"readonly></input>
+ <input style = "width: 3em;"class = "labelinput"type = "number" id = "100label"readonly></input>
+</div>
+</div>
+   
+
+<div>
+<a id = "reset" onclick = "resetor();" href='#grade'><b>RESET</b></a>
+</div>
+  
+  
+
+  
+
+</main>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+
+  
+      <script id="rendered-js" >
+var allGrades = "";
+var currentGrade = 0;
+var arrGrades = [];
+
+
+
+function update() {
+
+
+
+  currentGrade = document.getElementById("grade").value;
+  document.getElementById("grade").value = "";
+  //checking the number for range.
+  if (parseInt(currentGrade) < 0 || parseInt(currentGrade) > 100 || currentGrade == "") {
+    document.getElementById("grade").value = "invalid";
+  } else
+  {
+    // if number is in range, add it to the array holding all grades, and the text area.
+    allGrades += currentGrade + " ";
+    document.getElementById("studentgrades").value = allGrades;
+    arrGrades.push(parseInt(currentGrade));
+  }
+}
+
+//function to be called to find magnitude of specific deviations from the mean
+
+
+function generator() {
+
+  var mean = 0;
+  var sd = 0;
+  var totalnumber = 0;
+  var totalnumber_squared = 0;
+  // adding all the numbers in the grade array and assigning them to a variable, to find E(x)
+  arrGrades.map(function (number) {
+    totalnumber += number;
+  });
+
+  //squaring all the numbers in the array before adding them and assigning them to a variable, to find E(X^2)
+  arrGrades.map(function (number) {
+    number *= number;
+    totalnumber_squared += number;
+  });
+
+  // Calculating the mean
+
+  var mean = totalnumber / arrGrades.length;
+  console.log(mean);
+
+  // Calculating the variance
+
+  var variance = totalnumber_squared / arrGrades.length - mean * mean;
+
+  //Calculating the standard deviation.
+
+  var sd = Math.sqrt(variance);
+
+
+  document.getElementById("flabel").value = 0;
+
+  document.getElementById("elabel").value = stan(1.645, mean, sd);
+  document.getElementById("dlabel").value = stan(1.223, mean, sd);
+  document.getElementById("dqlabel").value = stan(0.882, mean, sd);
+  document.getElementById("clabel").value = stan(0.411, mean, sd);
+  document.getElementById("cqlabel").value = stan(0, mean, sd);
+  document.getElementById("blabel").value = stan(-0.411, mean, sd);
+  document.getElementById("bqlabel").value = stan(-0.882, mean, sd);
+  document.getElementById("alabel").value = stan(-1.233, mean, sd);
+  document.getElementById("aqlabel").value = stan(-1.645, mean, sd);
+
+  document.getElementById("100label").value = 100;
+
+  document.querySelector("#label").style.visibility = "visible";
+  document.querySelector("#graph").style.visibility = "visible";
+
+
+}
+
+
+function stan(i, mean, sd) {
+  var outNum = 0;
+  outNum = Math.round(mean - i * sd);
+
+  if (outNum > 100) {
+    return 98;
+  } else
+  {
+    return outNum;
+  }
+
+}
+
+function resetor() {
+
+  document.querySelector("#label").style.visibility = "hidden";
+  document.querySelector("#graph").style.visibility = "hidden";
+  document.getElementById("studentgrades").value = "";
+  allGrades = "";
+  currentGrade = 0;
+  arrGrades = [];
+
+}
+//# sourceURL=pen.js
+    </script>
+
+  
+
+</body>
+
+</html>
+ 
